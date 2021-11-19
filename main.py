@@ -12,7 +12,7 @@ with col3:
 
     st.sidebar.header("Upload your CSV or Excel file")
 
-    uploaded_file = st.sidebar.file_uploader(label='', type=['csv', 'xlsx', 'xlsm'])
+    uploaded_file = st.sidebar.file_uploader(label='', type=['xml', 'xlsx', 'xlsm'])
 
 global df
 
@@ -20,7 +20,7 @@ if uploaded_file is not None:
     try:
         df = pd.read_excel(uploaded_file)
     except Exception as e:
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_xml(uploaded_file)
 
     with col1:
         st.header("Database:")
