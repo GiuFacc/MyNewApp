@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 col3 = st.container()
 col1, col2 = st.columns([5,3])
 with col3:
-    st.markdown("<h1 style='text-align: center; color: #F4F5F5;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: blue;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
 
     st.sidebar.header("Upload your CSV or Excel file")
 
