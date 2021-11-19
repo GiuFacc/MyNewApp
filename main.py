@@ -18,9 +18,9 @@ global df
 
 if uploaded_file is not None:
     try:
-        df = pd.read_csv(uploaded_file)
-    except Exception as e:
         df = pd.read_excel(uploaded_file)
+    except Exception as e:
+        df = pd.read_csv(uploaded_file)
 
     with col1:
         st.header("Database:")
