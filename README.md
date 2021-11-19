@@ -1,3 +1,3 @@
-��# MyNewApp
+Database App by GiulioMyNewApp
 
-[Click here](https://share.streamlit.io/giufacc/mynewapp/main/main.py)
+[Clicca qui per aprire l'app](https://share.streamlit.io/giufacc/mynewapp/main/main.py)
