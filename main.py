@@ -14,13 +14,13 @@ with col3:
 
     uploaded_file = st.sidebar.file_uploader(label='', type=['csv', 'xlsx', 'xlsm'])
 
-    global df
+global df
 
-    if uploaded_file is not None:
-        try:
-            df = pd.read_csv(uploaded_file)
-        except Exception as e:
-            df = pd.read_excel(uploaded_file)
+if uploaded_file is not None:
+    try:
+        df = pd.read_csv(uploaded_file)
+    except Exception as e:
+        df = pd.read_excel(uploaded_file)
 
     with col1:
         st.header("Database:")
@@ -34,8 +34,7 @@ with col3:
     places = df['Luogo'].unique()
     dates = df['mm/aaaa'].unique()
 
-
-with col3:
+    with col3:
     st.header('Visualization settings:')
     all_names = st.button('Tutti', help='Mostra la tabella pivot intera')
     clear = st.button('Clear', help='Ripristina le opzioni\n\nVa cliccato dopo tutti')
@@ -147,4 +146,5 @@ with col3:
                                        columns=['mm/aaaa'], aggfunc=np.sum)
 
     col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
+
 
