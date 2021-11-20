@@ -1,14 +1,15 @@
-import numpy as np
 import streamlit as st
+import numpy as np
 import pandas as pd
 
-#st.set_option('deprecation.showfileUploaderEncoding', False)
+st.set_option('deprecation.showfileUploaderEncoding', False)
 st.set_page_config(layout="wide")
 
 col3 = st.container()
+col4 = st.container()
 col1, col2 = st.columns([5,3])
 with col3:
-    st.markdown("<h1 style='text-align: center; color: blue;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #F4F5F5;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
 
     st.sidebar.header("Upload your CSV or Excel file")
 
@@ -36,20 +37,19 @@ if uploaded_file is not None:
 
     with col3:
         st.header('Visualization settings:')
-        all_names = st.button('Tutti', help='Mostra la tabella pivot intera')
-        clear = st.button('Clear', help='Ripristina le opzioni\n\nVa cliccato dopo tutti')
-        
-        if all_names:
+        container = st.container()
+        all = st.checkbox("Select all")
+
+        if all:
             name_select = st.multiselect('Nome', sorted(name), sorted(name))
             place_select = st.multiselect('Luogo', sorted(places), sorted(places))
-            date_Select = st.multiselect('Mese/Anno', sorted(dates), sorted(dates))
+            date_select = st.multiselect('Mese/Anno', sorted(dates), sorted(dates))
 
             with col1:
                 st.dataframe(df.style.format(precision=1), width=1000, height=704)
             with col2:
                 table = pd.pivot_table(df, values='Totale', index=['Nome', 'Luogo'],
-                                   columns=['mm/aaaa'], aggfunc=np.sum, margins=True,
-                                   margins_name='TOTALE')
+                                       columns=['mm/aaaa'], aggfunc=np.sum)
 
         else:
             name_select = st.multiselect('Nome', sorted(name))
@@ -64,17 +64,17 @@ if uploaded_file is not None:
                     table = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select)
                     if date_select:
                         database = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                 elif date_select:
                     database = df['Nome'].isin(name_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Nome'].isin(name_select) & df['mm/aaaa'].isin(date_select)
                     if place_select:
                         database = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
 
                 df1 = df[table]
                 df2 = df[database]
@@ -83,7 +83,7 @@ if uploaded_file is not None:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=745)
                 with col2:
                     table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                       columns=['mm/aaaa'], aggfunc=np.sum)
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
 
             elif place_select:
                 database = df['Luogo'].isin(place_select)
@@ -93,17 +93,17 @@ if uploaded_file is not None:
                     table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select)
                     if date_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                 elif date_select:
                     database = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     if name_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
 
                 df1 = df[table]
                 df2 = df[database]
@@ -113,7 +113,7 @@ if uploaded_file is not None:
 
                 with col2:
                     table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                       columns=['mm/aaaa'], aggfunc=np.sum)
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
 
             elif date_select:
                 database = df['mm/aaaa'].isin(date_select)
@@ -123,17 +123,17 @@ if uploaded_file is not None:
                     table = df['mm/aaaa'].isin(date_select) & df['Nome'].isin(name_select)
                     if place_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                 elif place_select:
                     database = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     if name_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
                         table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
-                        date_select)
+                            date_select)
 
                 df1 = df[table]
                 df2 = df[database]
@@ -143,10 +143,6 @@ if uploaded_file is not None:
 
                 with col2:
                     table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                       columns=['mm/aaaa'], aggfunc=np.sum)
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
 
         col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
-
-
-
-    
