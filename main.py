@@ -7,7 +7,7 @@ st.set_page_config(layout="wide")
 
 col3 = st.container()
 col4 = st.container()
-col1, col2 = st.columns([5,3])
+col1, col2 = st.columns([5,4])
 with col3:
     st.markdown("<h1 style='text-align: center; color: blue;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
 
@@ -38,12 +38,13 @@ if uploaded_file is not None:
     with col3:
         st.header('Visualization settings:')
         container = st.container()
-        all = st.checkbox("Select all")
+        container2 = container.container()
+        all = container.checkbox("Select all")
 
         if all:
-            name_select = st.multiselect('Nome', sorted(name), sorted(name))
-            place_select = st.multiselect('Luogo', sorted(places), sorted(places))
-            date_select = st.multiselect('Mese/Anno', sorted(dates), sorted(dates))
+            name_select = container.multiselect('Nome', sorted(name), sorted(name))
+            place_select = container.multiselect('Luogo', sorted(places), sorted(places))
+            date_select = container.multiselect('Mese/Anno', sorted(dates), sorted(dates))
 
             with col1:
                 st.dataframe(df.style.format(precision=1), width=1000, height=704)
@@ -52,16 +53,31 @@ if uploaded_file is not None:
                                        columns=['mm/aaaa'], aggfunc=np.sum)
 
         else:
-            name_select = st.multiselect('Nome', sorted(name))
-            place_select = st.multiselect('Luogo', sorted(places))
-            date_select = st.multiselect('Mese/Anno', sorted(dates))
+            name_select = container.multiselect('Nome', sorted(name))
+            place_select = container.multiselect('Luogo', sorted(places))
+            date_select = container.multiselect('Mese/Anno', sorted(dates))
 
             if name_select:
                 database = df['Nome'].isin(name_select)
                 table = df['Nome'].isin(name_select)
+                df2 = df[database]
+                places1 = df2['Luogo'].unique()
+                dates1 = df2['mm/aaaa'].unique()
+                place_old = container.subheader('Luoghi disponibili: ')
+                place_old_2 = container.text(' - '.join(sorted(places1)))
+                date_old = container.subheader('Date disponibili: ')
+                date_old_2 = container.text(' - '.join(sorted(dates1)))
                 if place_select:
                     database = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select)
                     table = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select)
+                    df2 = df[database]
+                    dates1 = df2['mm/aaaa'].unique()
+                    place_old.empty()
+                    place_old_2.empty()
+                    date_old.empty()
+                    date_old_2.empty()
+                    container.subheader('Date disponibili: ')
+                    container.text(' - '.join(sorted(dates1)))
                     if date_select:
                         database = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(
                             date_select)
@@ -70,6 +86,14 @@ if uploaded_file is not None:
                 elif date_select:
                     database = df['Nome'].isin(name_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Nome'].isin(name_select) & df['mm/aaaa'].isin(date_select)
+                    df2 = df[database]
+                    places1 = df2['Luogo'].unique()
+                    date_old.empty()
+                    date_old_2.empty()
+                    place_old.empty()
+                    place_old_2.empty()
+                    container.subheader('Luoghi disponibili: ')
+                    container.text(' - '.join(sorted(places1)))
                     if place_select:
                         database = df['Nome'].isin(name_select) & df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(
                             date_select)
@@ -88,9 +112,24 @@ if uploaded_file is not None:
             elif place_select:
                 database = df['Luogo'].isin(place_select)
                 table = df['Luogo'].isin(place_select)
+                df2 = df[database]
+                name1 = df2['Nome'].unique()
+                dates1 = df2['mm/aaaa'].unique()
+                name_old = container.subheader('Nomi disponibili: ')
+                name_old_2 = container.text(' - '.join(sorted(name1)))
+                date_old = container.subheader('Date disponibili: ')
+                date_old_2 = container.text(' - '.join(sorted(dates1)))
                 if name_select:
                     database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select)
                     table = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select)
+                    df2 = df[database]
+                    dates1 = df2['mm/aaaa'].unique()
+                    name_old.empty()
+                    name_old_2.empty()
+                    date_old.empty()
+                    date_old_2.empty()
+                    container.subheader('Date disponibili: ')
+                    container.text(' - '.join(sorted(dates1)))
                     if date_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
                             date_select)
@@ -99,6 +138,14 @@ if uploaded_file is not None:
                 elif date_select:
                     database = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
+                    df2 = df[database]
+                    name1 = df2['Nome'].unique()
+                    date_old.empty()
+                    date_old_2.empty()
+                    name_old.empty()
+                    name_old_2.empty()
+                    container.subheader('Nomi disponibili: ')
+                    container.text(' - '.join(sorted(name1)))
                     if name_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
                             date_select)
@@ -118,9 +165,24 @@ if uploaded_file is not None:
             elif date_select:
                 database = df['mm/aaaa'].isin(date_select)
                 table = df['mm/aaaa'].isin(date_select)
+                df2 = df[database]
+                name1 = df2['Nome'].unique()
+                places1 = df2['Luogo'].unique()
+                name_old = container.subheader('Nomi disponibili: ')
+                name_old_2 = container.text(' - '.join(sorted(name1)))
+                places_old = container.subheader('Luoghi disponibili: ')
+                places_old_2 = container.text(' - '.join(sorted(places1)))
                 if name_select:
                     database = df['mm/aaaa'].isin(date_select) & df['Nome'].isin(name_select)
                     table = df['mm/aaaa'].isin(date_select) & df['Nome'].isin(name_select)
+                    df2 = df[database]
+                    dates1 = df2['mm/aaaa'].unique()
+                    name_old.empty()
+                    name_old_2.empty()
+                    places_old.empty()
+                    places_old_2.empty()
+                    container.subheader('Date disponibili: ')
+                    container.text(' - '.join(sorted(dates1)))
                     if place_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
                             date_select)
@@ -129,6 +191,14 @@ if uploaded_file is not None:
                 elif place_select:
                     database = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
                     table = df['Luogo'].isin(place_select) & df['mm/aaaa'].isin(date_select)
+                    df2 = df[database]
+                    name1 = df2['Nome'].unique()
+                    name_old.empty()
+                    name_old_2.empty()
+                    places_old.empty()
+                    places_old_2.empty()
+                    container.subheader('Nomi disponibili: ')
+                    container.text(' - '.join(sorted(name1)))
                     if name_select:
                         database = df['Luogo'].isin(place_select) & df['Nome'].isin(name_select) & df['mm/aaaa'].isin(
                             date_select)
