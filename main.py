@@ -49,8 +49,8 @@ if uploaded_file is not None:
             with col1:
                 st.dataframe(df.style.format(precision=1), width=1000, height=704)
             with col2:
-                table = pd.pivot_table(df, values='Totale', index=['Nome', 'Luogo'],
-                                       columns=['mm/aaaa'], aggfunc=np.sum)
+                table = pd.pivot_table(df, values='Totale', index=['Nome', 'mm/aaaa'],
+                                       columns=['Luogo'], aggfunc=np.sum)
 
         else:
             name_select = container.multiselect('Nome', sorted(name))
@@ -106,8 +106,8 @@ if uploaded_file is not None:
                 with col1:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=745)
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
+                                           columns=['Luogo'], aggfunc=np.sum)
 
             elif place_select:
                 database = df['Luogo'].isin(place_select)
@@ -159,8 +159,8 @@ if uploaded_file is not None:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=704)
 
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
+                                           columns=['Luogo'], aggfunc=np.sum)
 
             elif date_select:
                 database = df['mm/aaaa'].isin(date_select)
@@ -212,7 +212,7 @@ if uploaded_file is not None:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=704)
 
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
-                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
+                                           columns=['Luogo'], aggfunc=np.sum)
 
         col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
