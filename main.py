@@ -7,9 +7,9 @@ st.set_page_config(layout="wide")
 
 col3 = st.container()
 col4 = st.container()
-col1, col2 = st.columns([3,2])
+col1, col2 = st.columns([5,4])
 with col3:
-    st.markdown("<h1 style='text-align: center; color: blue;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #F4F5F5;'>DATABASE VISUALIZATION APP</h1>", unsafe_allow_html=True)
 
     st.sidebar.header("Upload your CSV or Excel file")
 
@@ -51,6 +51,7 @@ if uploaded_file is not None:
             with col2:
                 table = pd.pivot_table(df, values='Totale', index=['Nome', 'mm/aaaa'],
                                        columns=['Luogo'], aggfunc=np.sum)
+                col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
 
         else:
             name_select = container.multiselect('Nome', sorted(name))
@@ -106,8 +107,9 @@ if uploaded_file is not None:
                 with col1:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=745)
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
-                                           columns=['Luogo'], aggfunc=np.sum)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
 
             elif place_select:
                 database = df['Luogo'].isin(place_select)
@@ -159,8 +161,9 @@ if uploaded_file is not None:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=704)
 
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
-                                           columns=['Luogo'], aggfunc=np.sum)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
 
             elif date_select:
                 database = df['mm/aaaa'].isin(date_select)
@@ -212,7 +215,6 @@ if uploaded_file is not None:
                     st.dataframe(df2.style.format(precision=1), width=1000, height=704)
 
                 with col2:
-                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'mm/aaaa'],
-                                           columns=['Luogo'], aggfunc=np.sum)
-
-        col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
+                    table = pd.pivot_table(df1, values='Totale', index=['Nome', 'Luogo'],
+                                           columns=['mm/aaaa'], aggfunc=np.sum)
+                    col2.dataframe(table.style.format(formatter="{:.1f}", na_rep='-'), height=704)
